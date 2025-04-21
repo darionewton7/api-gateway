@@ -1,0 +1,40 @@
+name: Security Scan
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Executa todo domingo à meia-noite
+  workflow_dispatch:  # Permite execução manual
+
+jobs:
+  security-scan:
+    name: Verificação de Segurança
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: payment-gateway/package-lock.json
+
+      - name: Verificar dependências Node.js
+        run: |
+          cd payment-gateway
+          npm audit --production
+
+      - name: Verificar segurança do Terraform
+        uses: aquasecurity/tfsec-action@v1.0.0
+        with:
+          working_directory: terraform
+
+      - name: Notificar resultados
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()

@@ -1,0 +1,37 @@
+2025-04-20 05:26:38.881 [info] 
+
+
+
+
+2025-04-20 05:26:38.901 [info] Extension host agent started.
+2025-04-20 05:26:38.969 [info] Started initializing default profile extensions in extensions installation folder. file:///home/ubuntu/.local/share/code-server/extensions
+2025-04-20 05:26:39.088 [info] Completed initializing default profile extensions in extensions installation folder. file:///home/ubuntu/.local/share/code-server/extensions
+2025-04-20 05:26:42.896 [info] [10.185.129.1][9bead0d1][ManagementConnection] New connection established.
+2025-04-20 05:26:45.218 [info] [10.185.129.1][fefe17b7][ExtensionHostConnection] New connection established.
+2025-04-20 05:26:46.162 [info] [10.185.129.1][fefe17b7][ExtensionHostConnection] <2798> Launched Extension Host Process.
+2025-04-20 05:27:10.256 [info] [10.185.129.1][5863c7a8][ManagementConnection] New connection established.
+2025-04-20 05:27:13.573 [info] [10.185.129.1][b4e506e6][ExtensionHostConnection] New connection established.
+2025-04-20 05:27:13.579 [info] [10.185.129.1][b4e506e6][ExtensionHostConnection] <3919> Launched Extension Host Process.
+2025-04-20 05:27:16.637 [warning] RequestStore#acceptReply was called without receiving a matching request 13
+2025-04-20 05:27:16.637 [warning] RequestStore#acceptReply was called without receiving a matching request 14
+2025-04-20 05:27:16.637 [warning] RequestStore#acceptReply was called without receiving a matching request 15
+2025-04-20 05:27:16.637 [warning] RequestStore#acceptReply was called without receiving a matching request 16
+2025-04-20 05:27:16.638 [warning] RequestStore#acceptReply was called without receiving a matching request 17
+2025-04-20 05:27:16.638 [warning] RequestStore#acceptReply was called without receiving a matching request 18
+2025-04-20 05:27:16.638 [warning] RequestStore#acceptReply was called without receiving a matching request 19
+2025-04-20 05:27:16.638 [warning] RequestStore#acceptReply was called without receiving a matching request 20
+2025-04-20 05:27:16.638 [warning] RequestStore#acceptReply was called without receiving a matching request 21
+2025-04-20 05:27:16.638 [warning] RequestStore#acceptReply was called without receiving a matching request 22
+2025-04-20 05:27:16.638 [warning] RequestStore#acceptReply was called without receiving a matching request 23
+2025-04-20 05:27:16.638 [warning] RequestStore#acceptReply was called without receiving a matching request 24
+2025-04-20 05:46:14.321 [info] [10.185.129.1][5863c7a8][ManagementConnection] The client has disconnected, will wait for reconnection 3h before disposing...
+2025-04-20 05:46:14.324 [info] [10.185.129.1][9bead0d1][ManagementConnection] The client has disconnected, will wait for reconnection 3h before disposing...
+2025-04-21 05:13:36.309 [info] [10.185.129.1][9bead0d1][ManagementConnection] Another client has connected, will shorten the wait for reconnection 5m before disposing...
+2025-04-21 05:13:36.309 [info] [10.185.129.1][5863c7a8][ManagementConnection] Another client has connected, will shorten the wait for reconnection 5m before disposing...
+2025-04-21 05:13:36.310 [info] [10.83.244.1][ba8e41b4][ManagementConnection] New connection established.
+2025-04-21 05:13:38.449 [info] [10.83.244.1][1db946cf][ExtensionHostConnection] New connection established.
+2025-04-21 05:13:38.457 [info] [10.83.244.1][1db946cf][ExtensionHostConnection] <13431> Launched Extension Host Process.
+2025-04-21 05:18:36.374 [info] [10.185.129.1][9bead0d1][ManagementConnection] The reconnection short grace time of 5m has expired, so the connection will be disposed.
+2025-04-21 05:18:36.379 [info] [10.185.129.1][5863c7a8][ManagementConnection] The reconnection short grace time of 5m has expired, so the connection will be disposed.
+2025-04-21 05:18:36.440 [info] [10.185.129.1][fefe17b7][ExtensionHostConnection] <2798> Extension Host Process exited with code: 0, signal: null.
+2025-04-21 05:18:36.456 [info] [10.185.129.1][b4e506e6][ExtensionHostConnection] <3919> Extension Host Process exited with code: 0, signal: null.

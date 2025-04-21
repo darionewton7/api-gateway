@@ -1,0 +1,25 @@
+{
+  "name": "payment-gateway-processor",
+  "version": "1.0.0",
+  "description": "Processador de pagamentos com Stripe para AWS Lambda",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint .",
+    "package": "zip -r lambda_function.zip index.js node_modules package.json"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1467.0",
+    "stripe": "^13.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.51.0",
+    "jest": "^29.7.0",
+    "aws-sdk-mock": "^5.8.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": "DevOps Team",
+  "license": "MIT"
+}

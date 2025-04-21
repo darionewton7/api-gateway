@@ -1,0 +1,33 @@
+[2025-04-20T05:17:11.266Z] info  code-server 4.99.1 0a92b7630413a9739541251a47ae6d509fa0e229
+[2025-04-20T05:17:11.289Z] info  Using user-data-dir /home/ubuntu/.local/share/code-server
+[2025-04-20T05:17:11.312Z] info  Using config file /home/ubuntu/.config/code-server/config.yaml
+[2025-04-20T05:17:11.313Z] info  HTTP server listening on http://0.0.0.0:8329/
+[2025-04-20T05:17:11.313Z] info    - Authentication is enabled
+[2025-04-20T05:17:11.313Z] info      - Using password from /home/ubuntu/.config/code-server/config.yaml
+[2025-04-20T05:17:11.313Z] info    - Not serving HTTPS
+[2025-04-20T05:17:11.313Z] info  Session server listening on /home/ubuntu/.local/share/code-server/code-server-ipc.sock
+[05:26:38] 
+
+
+
+
+[05:26:38] Extension host agent started.
+[05:26:38] Started initializing default profile extensions in extensions installation folder. file:///home/ubuntu/.local/share/code-server/extensions
+[05:26:39] Completed initializing default profile extensions in extensions installation folder. file:///home/ubuntu/.local/share/code-server/extensions
+[05:26:42] [10.185.129.1][9bead0d1][ManagementConnection] New connection established.
+[05:26:45] [10.185.129.1][fefe17b7][ExtensionHostConnection] New connection established.
+[05:26:46] [10.185.129.1][fefe17b7][ExtensionHostConnection] <2798> Launched Extension Host Process.
+[05:27:10] [10.185.129.1][5863c7a8][ManagementConnection] New connection established.
+[05:27:13] [10.185.129.1][b4e506e6][ExtensionHostConnection] New connection established.
+[05:27:13] [10.185.129.1][b4e506e6][ExtensionHostConnection] <3919> Launched Extension Host Process.
+[05:46:14] [10.185.129.1][5863c7a8][ManagementConnection] The client has disconnected, will wait for reconnection 3h before disposing...
+[05:46:14] [10.185.129.1][9bead0d1][ManagementConnection] The client has disconnected, will wait for reconnection 3h before disposing...
+[05:13:36] [10.185.129.1][9bead0d1][ManagementConnection] Another client has connected, will shorten the wait for reconnection 5m before disposing...
+[05:13:36] [10.185.129.1][5863c7a8][ManagementConnection] Another client has connected, will shorten the wait for reconnection 5m before disposing...
+[05:13:36] [10.83.244.1][ba8e41b4][ManagementConnection] New connection established.
+[05:13:38] [10.83.244.1][1db946cf][ExtensionHostConnection] New connection established.
+[05:13:38] [10.83.244.1][1db946cf][ExtensionHostConnection] <13431> Launched Extension Host Process.
+[05:18:36] [10.185.129.1][9bead0d1][ManagementConnection] The reconnection short grace time of 5m has expired, so the connection will be disposed.
+[05:18:36] [10.185.129.1][5863c7a8][ManagementConnection] The reconnection short grace time of 5m has expired, so the connection will be disposed.
+[05:18:36] [10.185.129.1][fefe17b7][ExtensionHostConnection] <2798> Extension Host Process exited with code: 0, signal: null.
+[05:18:36] [10.185.129.1][b4e506e6][ExtensionHostConnection] <3919> Extension Host Process exited with code: 0, signal: null.

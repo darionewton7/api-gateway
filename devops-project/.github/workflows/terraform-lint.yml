@@ -1,0 +1,24 @@
+name: Terraform Lint
+
+on:
+  pull_request:
+    paths:
+      - 'terraform/**/*.tf'
+      - '.github/workflows/terraform-lint.yml'
+
+jobs:
+  tflint:
+    name: TFLint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Configurar TFLint
+        uses: terraform-linters/setup-tflint@v3
+        with:
+          tflint_version: v0.46.1
+
+      - name: Executar TFLint
+        run: |
+          find terraform -type d -name "*.terraform" -prune -o -type d -exec sh -c 'cd {}; echo "Verificando $PWD"; tflint --init; tflint --format=compact' \;

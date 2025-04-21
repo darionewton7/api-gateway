@@ -1,0 +1,38 @@
+name: Payment Gateway Tests
+
+on:
+  push:
+    paths:
+      - 'payment-gateway/**'
+      - '.github/workflows/payment-tests.yml'
+  pull_request:
+    paths:
+      - 'payment-gateway/**'
+      - '.github/workflows/payment-tests.yml'
+
+jobs:
+  test:
+    name: Testes do Gateway de Pagamento
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: payment-gateway/package-lock.json
+
+      - name: Instalar dependências
+        run: cd payment-gateway && npm install
+
+      - name: Executar lint
+        run: cd payment-gateway && npm run lint
+
+      - name: Executar testes
+        run: cd payment-gateway && npm test
+
+      - name: Verificar empacotamento
+        run: cd payment-gateway && chmod +x package.sh && ./package.sh

@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto DevOps com AWS, Terraform e GitHub Actions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #0099ff;
+            --accent-color: #ff9900;
+            --dark-color: #333333;
+            --light-color: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--dark-color);
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IGlkPSJwYXR0ZXJuLWJhY2tncm91bmQiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InRyYW5zcGFyZW50Ij48L3JlY3Q+PHBhdGggZD0iTSAwIDIwIEwgNDAgMjAiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjEpIiBzdHJva2Utd2lkdGg9IjIiPjwvcGF0aD48cGF0aCBkPSJNIDIwIDAgTCAyMCA0MCIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiIHN0cm9rZS13aWR0aD0iMiI+PC9wYXRoPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgaGVpZ2h0PSIxMDAlIiB3aWR0aD0iMTAwJSI+PC9yZWN0Pjwvc3ZnPg==');
+            opacity: 0.2;
+        }
+        
+        .section-title {
+            position: relative;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100px;
+            height: 4px;
+            background-color: var(--accent-color);
+        }
+        
+        .feature-card {
+            border: none;
+            border-radius: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .architecture-img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tech-icon {
+            height: 60px;
+            margin: 1rem;
+            filter: grayscale(100%);
+            transition: filter 0.3s, transform 0.3s;
+        }
+        
+        .tech-icon:hover {
+            filter: grayscale(0%);
+            transform: scale(1.1);
+        }
+        
+        .code-block {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow-x: auto;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            color: #333;
+        }
+        
+        .code-language {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.8rem;
+            border-radius: 0 5px 0 5px;
+        }
+        
+        .footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+        
+        .nav-pills .nav-link.active {
+            background-color: var(--primary-color);
+        }
+        
+        .nav-pills .nav-link {
+            color: var(--dark-color);
+        }
+        
+        .tab-pane {
+            padding: 2rem;
+            background-color: white;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .workflow-step {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .workflow-step::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+        }
+        
+        .workflow-step::after {
+            content: '';
+            position: absolute;
+            left: 9px;
+            top: 20px;
+            width: 2px;
+            height: calc(100% + 10px);
+            background-color: var(--primary-color);
+        }
+        
+        .workflow-step:last-child::after {
+            display: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        #back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: none;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            z-index: 99;
+            transition: background-color 0.3s;
+        }
+        
+        #back-to-top:hover {
+            background-color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 4rem 0;
+            }
+            
+            .section-title {
+                margin-bottom: 2rem;
+            }
+            
+            .feature-card {
+                margin-bottom: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Botão Voltar ao Topo -->
+    <button id="back-to-top" class="btn" title="Voltar ao Topo">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">DevOps AWS</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#inicio">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#arquitetura">Arquitetura</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#componentes">Componentes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pipeline">Pipeline CI/CD</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#documentacao">Documentação</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="inicio">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-4">Projeto DevOps com AWS, Terraform e GitHub Actions</h1>
+                    <p class="lead mb-4">Uma solução completa de DevOps que integra infraestrutura como código, gateway de pagamento e pipeline CI/CD automatizado.</p>
+                    <div class="d-flex gap-3">
+                        <a href="#arquitetura" class="btn btn-light btn-lg">Ver Arquitetura</a>
+                        <a href="#documentacao" class="btn btn-outline-light btn-lg">Documentação</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 d-none d-lg-block">
+                    <div class="text-center">
+                        <i class="bi bi-diagram-3 text-white" style="font-size: 15rem; opacity: 0.7;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Características Principais -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <div class="card feature-card h-100 p-4">
+                        <div class="card-body text-center">
+                            <i class="bi bi-hdd-rack feature-icon"></i>
+                            <h3 class="card-title">Infraestrutura como Código</h3>
+                            <p class="card-text">Terraform para provisionar toda a infraestrutura AWS de forma automatizada e reproduzível.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <div class="card feature-card h-100 p-4">
+                        <div class="card-body text-center">
+                            <i class="bi bi-credit-card feature-icon"></i>
+                            <h3 class="card-title">Gateway de Pagamento</h3>
+                            <p class="card-text">Integração segura com Stripe para processamento de pagamentos via Lambda e API Gateway.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card h-100 p-4">
+                        <div class="card-body text-center">
+                            <i class="bi bi-gear-wide-connected feature-icon"></i>
+                            <h3 class="card-title">Pipeline CI/CD</h3>
+                            <p class="card-text">GitHub Actions para automação de testes, validação e deploy em ambientes de staging e produção.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Arquitetura -->
+    <section class="py-5 bg-light" id="arquitetura">
+        <div class="container">
+            <h2 class="section-title">Arquitetura</h2>
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="card p-3">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <i class="bi bi-diagram-3" style="font-size: 15rem; color: var(--primary-color);"></i>
+                                <p class="text-muted mt-2">Diagrama de Arquitetura</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h3 class="mb-4">Componentes da Arquitetura</h3>
+                    <div class="mb-4">
+                        <h5><i class="bi bi-hdd-network me-2 text-primary"></i> VPC & Networking</h5>
+                        <p>Rede isolada com subnets públicas e privadas em múltiplas zonas de disponibilidade, garantindo alta disponibilidade e segurança.</p>
+                    </div>
+                    <div class="mb-4">
+                        <h5><i class="bi bi-boxes me-2 text-primary"></i> ECS/Fargate</h5>
+                        <p>Serviço gerenciado para execução de containers, eliminando a necessidade de gerenciar servidores.</p>
+                    </div>
+                    <div class="mb-4">
+                        <h5><i class="bi bi-database me-2 text-primary"></i> RDS PostgreSQL</h5>
+                        <p>Banco de dados relacional gerenciado com backups automáticos e alta disponibilidade.</p>
+                    </div>
+                    <div class="mb-4">
+                        <h5><i class="bi bi-lightning me-2 text-primary"></i> Lambda & API Gateway</h5>
+                        <p>Processamento serverless de pagamentos com exposição via API RESTful.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Componentes -->
+    <section class="py-5" id="componentes">
+        <div class="container">
+            <h2 class="section-title">Componentes Principais</h2>
+            
+            <ul class="nav nav-pills mb-4" id="componentes-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="terraform-tab" data-bs-toggle="pill" data-bs-target="#terraform" type="button" role="tab" aria-controls="terraform" aria-selected="true">Terraform</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="payment-tab" data-bs-toggle="pill" data-bs-target="#payment" type="button" role="tab" aria-controls="payment" aria-selected="false">Gateway de Pagamento</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="cicd-tab" data-bs-toggle="pill" data-bs-target="#cicd" type="button" role="tab" aria-controls="cicd" aria-selected="false">CI/CD</button>
+                </li>
+            </ul>
+            
+            <div class="tab-content" id="componentes-tabContent">
+                <!-- Terraform -->
+                <div class="tab-pane fade show active" id="terraform" role="tabpanel" aria-labelledby="terraform-tab">
+                    <h4 class="mb-4">Módulos Terraform</h4>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title"><i class="bi bi-hdd-network me-2 text-primary"></i> VPC</h5>
+                                    <p class="card-text">Configura a rede virtual com subnets públicas e privadas, Internet Gateway, NAT Gateway, tabelas de rotas e NACLs.</p>
+                                    <div class="code-block">
+                                        <span class="code-language">terraform</span>
+                                        <pre>module "vpc" {
+  source = "../../modules/vpc"
+  
+  project     = local.project
+  environment = local.environment
+  
+  vpc_cidr        = "10.0.0.0/16"
+  azs             = ["us-east-1a", "us-east-1b"]
+  private_subnets = ["10.0.1.0/24", "10.0.2.0/24"]
+  public_subnets  = ["10.0.101.0/24", "10.0.102.0/24"]
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title"><i class="bi bi-shield-lock me-2 text-primary"></i> Security</h5>
+                                    <p class="card-text">Define grupos de segurança para controle de tráfego entre os componentes da aplicação.</p>
+                                    <div class="code-block">
+                                        <span class="code-language">terraform</span>
+                                        <pre>module "security" {
+  source = "../../modules/security"
+  
+  project     = local.project
+  environment = local.environment
+  
+  vpc_id   = module.vpc.vpc_id
+  vpc_cidr = module.vpc.vpc_cidr_block
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title"><i class="bi bi-boxes me-2 text-primary"></i> ECS</h5>
+                                    <p class="card-text">Configura o cluster ECS/Fargate para execução de containers, incluindo IAM roles e CloudWatch logs.</p>
+                                    <div class="code-block">
+                                        <span class="code-language">terraform</span>
+                                        <pre>module "ecs" {
+  source = "../../modules/ecs"
+  
+  project     = local.project
+  environment = local.environment
+  
+  vpc_id               = module.vpc.vpc_id
+  private_subnets      = module.vpc.private_subnets
+  ecs_security_group_id = module.security.ecs_security_group_id
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title"><i class="bi bi-database me-2 text-primary"></i> RDS</h5>
+                                    <p class="card-text">Configura o banco de dados PostgreSQL gerenciado, incluindo subnet groups, parameter groups e backups.</p>
+                                    <div class="code-block">
+                                        <span class="code-language">terraform</span>
+                                        <pre>module "rds" {
+  source = "../../modules/rds"
+  
+  project     = local.project
+  environment = local.environment
+  
+  vpc_id               = module.vpc.vpc_id
+  private_subnets      = module.vpc.private_subnets
+  rds_security_group_id = module.security.rds_security_group_id
+  
+  db_name            = "paymentdb"
+  db_instance_class  = "db.t3.small"
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Gateway de Pagamento -->
+                <div class="tab-pane fade" id="payment" role="tabpanel" aria-labelledby="payment-tab">
+                    <h4 class="mb-4">Gateway de Pagamento com Stripe</h4>
+                    <div class="row">
+                        <div class="col-lg-6 mb-4">
+                            <h5><i class="bi bi-lightning me-2 text-primary"></i> Função Lambda</h5>
+                            <p>Função serverless que processa pagamentos via API do Stripe.</p>
+                            <div class="code-block">
+                                <span class="code-language">javascript</span>
+                                <pre>const AWS = require('aws-sdk');
+const secretsManager = new AWS.SecretsManager();
+const stripe = require('stripe');
+
+exports.handler = async (event) => {
+  try {
+    // Parse do corpo da requisição
+    const body = JSON.parse(event.body);
+    
+    // Validação dos dados de pagamento
+    if (!body.cardNumber || !body.expMonth || 
+        !body.expYear || !body.cvc || !body.amount) {
+      return formatResponse(400, { 
+        error: 'Dados de pagamento incompletos' 
+      });
+    }
+    
+    // Processa o pagamento
+    const result = await processPayment(body);
+    
+    if (result.success) {
+      return formatResponse(200, result);
+    } else {
+      return formatResponse(400, result);
+    }
+  } catch (error) {
+    console.error('Erro ao processar a requisição:', error);
+    return formatResponse(500, { 
+      error: 'Erro interno do servidor' 
+    });
+  }
+};</pre>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-4">
+                            <h5><i class="bi bi-shield-lock me-2 text-primary"></i> Segurança</h5>
+                            <p>Implementação segura com AWS Secrets Manager e IAM roles com permissões mínimas.</p>
+                            <div class="code-block">
+                                <span class="code-language">terraform</span>
+                                <pre>resource "aws_secretsmanager_secret" "stripe" {
+  name        = "${local.name}/stripe-api-key"
+  description = "Chave de API do Stripe para o gateway de pagamento"
+  
+  tags = local.tags
+}
+
+resource "aws_secretsmanager_secret_version" "stripe" {
+  secret_id     = aws_secretsmanager_secret.stripe.id
+  secret_string = jsonencode({
+    api_key = var.stripe_api_key
+  })
+}
+
+resource "aws_lambda_function" "payment_processor" {
+  function_name = "${local.name}-payment-processor"
+  
+  vpc_config {
+    subnet_ids         = var.private_subnets
+    security_group_ids = [var.lambda_security_group_id]
+  }
+  
+  environment {
+    variables = {
+      STRIPE_SECRET_KEY_ARN = aws_secretsmanager_secret.stripe.arn
+      ENVIRONMENT           = var.environment
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-4">
+                            <h5><i class="bi bi-globe me-2 text-primary"></i> API Gateway</h5>
+                            <p>Endpoint HTTP para integração com o gateway de pagamento.</p>
+                            <div class="code-block">
+                                <span class="code-language">terraform</span>
+                                <pre>resource "aws_apigatewayv2_api" "payment_api" {
+  name          = "${local.name}-payment-api"
+  protocol_type = "HTTP"
+  
+  cors_configuration {
+    allow_origins = ["*"]
+    allow_methods = ["POST", "OPTIONS"]
+    allow_headers = ["Content-Type", "Authorization"]
+    max_age       = 300
+  }
+}
+
+resource "aws_apigatewayv2_route" "payment_processor" {
+  api_id    = aws_apigatewayv2_api.payment_api.id
+  route_key = "POST /process-payment"
+  target    = "integrations/${aws_apigatewayv2_integration.payment_processor.id}"
+}</pre>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-4">
+                            <h5><i class="bi bi-file-earmark-code me-2 text-primary"></i> Testes</h5>
+                            <p>Testes automatizados para validar o funcionamento do gateway de pagamento.</p>
+                            <div class="code-block">
+                                <span class="code-language">javascript</span>
+                                <pre>test('Deve processar o pagamento com sucesso', async () => {
+  const event = {
+    body: JSON.stringify({
+      cardNumber: '4242424242424242',
+      expMonth: 12,
+      expYear: 2025,
+      cvc: '123',
+      amount: 1000,
+      currency: 'brl',
+      email: 'cliente@exemplo.com',
+      name: 'Cliente Teste',
+      description: 'Compra de teste',
+      orderId: 'order_123456789'
+    })
+  };
+  
+  const response = await handler(event);
+  
+  expect(response.statusCode).toBe(200);
+  const body = JSON.parse(response.body);
+  expect(body).toHaveProperty('success', true);
+  expect(body).toHaveProperty('paymentIntentId');
+});</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CI/CD -->
+                <div class="tab-pane fade" id="cicd" role="tabpanel" aria-labelledby="cicd-tab">
+                    <h4 class="mb-4">Pipeline CI/CD com GitHub Actions</h4>
+                    <div class="row">
+                        <div class="col-lg-6 mb-4">
+                            <h5><i class="bi bi-gear-wide-connected me-2 text-primary"></i> Workflow Principal</h5>
+                            <p>Pipeline completo para testes, validação e deploy.</p>
+                            <div class="code-block">
+                                <span class="code-language">yaml</span>
+                                <pre>name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    name: Testes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Executar testes
+        run: cd payment-gateway && npm test
+
+  terraform-validate:
+    name: Validar Terraform
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Configurar Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Validar módulos Terraform
+        run: |
+          cd terraform/modules/vpc && terraform validate</pre>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-4">
+                            <h5><i class="bi bi-shield-check me-2 text-primary"></i> Segurança</h5>
+                            <p>Workflow para verificação de segurança e vulnerabilidades.</p>
+                            <div class="code-block">
+                                <span class="code-language">yaml</span>
+                                <pre>name: Security Scan
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Executa todo domingo à meia-noite
+  workflow_dispatch:
+
+jobs:
+  security-scan:
+    name: Verificação de Segurança
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Verificar dependências Node.js
+        run: |
+          cd payment-gateway
+          npm audit --production
+
+      - name: Verificar segurança do Terraform
+        uses: aquasecurity/tfsec-action@v1.0.0
+        with:
+          working_directory: terraform</pre>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-4">
+                            <h5><i class="bi bi-arrow-repeat me-2 text-primary"></i> Detecção de Drift</h5>
+                            <p>Workflow para detectar diferenças entre a infraestrutura atual e o estado desejado.</p>
+                            <div class="code-block">
+                                <span class="code-language">yaml</span>
+                                <pre>name: Infrastructure Drift Detection
+
+on:
+  schedule:
+    - cron: '0 6 * * 1-5'  # Executa de segunda a sexta às 6h
+  workflow_dispatch:
+
+jobs:
+  drift-detection:
+    name: Detecção de Drift da Infraestrutura
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environment: [staging, production]
+    
+    steps:
+      - name: Verificar Drift
+        id: plan
+        run: |
+          cd terraform/environments/${{ matrix.environment }}
+          terraform plan -detailed-exitcode -out=tfplan
+          echo "EXITCODE=$?" >> $GITHUB_ENV</pre>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-4">
+                            <h5><i class="bi bi-diagram-3 me-2 text-primary"></i> Ambientes</h5>
+                            <p>Configuração de ambientes separados para staging e produção.</p>
+                            <div class="workflow-step">
+                                <h6>Desenvolvimento</h6>
+                                <p>Trabalho em branches de feature com testes locais.</p>
+                            </div>
+                            <div class="workflow-step">
+                                <h6>Pull Request</h6>
+                                <p>Testes automatizados e validação do Terraform.</p>
+                            </div>
+                            <div class="workflow-step">
+                                <h6>Staging</h6>
+                                <p>Deploy automático após merge para branch develop.</p>
+                            </div>
+                            <div class="workflow-step">
+                                <h6>Produção</h6>
+                                <p>Deploy automático após merge para branch main.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pipeline CI/CD -->
+    <section class="py-5 bg-light" id="pipeline">
+        <div class="container">
+            <h2 class="section-title">Pipeline CI/CD</h2>
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h3 class="mb-4">Fluxo de Trabalho</h3>
+                    <div class="workflow-step">
+                        <h5>1. Desenvolvimento</h5>
+                        <p>Desenvolva novas features em branches de feature e faça commit das mudanças.</p>
+                    </div>
+                    <div class="workflow-step">
+                        <h5>2. Pull Request</h5>
+                        <p>Abra um Pull Request para a branch develop. O pipeline CI/CD executará automaticamente os testes e validações.</p>
+                    </div>
+                    <div class="workflow-step">
+                        <h5>3. Deploy em Staging</h5>
+                        <p>Após aprovação, faça merge do PR para develop para deploy automático em staging.</p>
+                    </div>
+                    <div class="workflow-step">
+                        <h5>4. Testes em Staging</h5>
+                        <p>Teste as mudanças no ambiente de staging.</p>
+                    </div>
+                    <div class="workflow-step">
+                        <h5>5. Deploy em Produção</h5>
+                        <p>Abra um PR de develop para main. Após aprovação, faça merge para deploy automático em produção.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card p-4">
+                        <div class="card-body">
+                            <h4 class="card-title mb-4">Benefícios do Pipeline CI/CD</h4>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.5rem;"></i>
+                                    <div>
+                                        <h5 class="mb-1">Automação Completa</h5>
+                                        <p class="mb-0">Testes, validação e deploy automatizados, reduzindo erros humanos.</p>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.5rem;"></i>
+                                    <div>
+                                        <h5 class="mb-1">Feedback Rápido</h5>
+                                        <p class="mb-0">Detecção imediata de problemas durante o desenvolvimento.</p>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.5rem;"></i>
+                                    <div>
+                                        <h5 class="mb-1">Segurança Integrada</h5>
+                                        <p class="mb-0">Verificações de segurança automatizadas em cada etapa.</p>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-success me-3" style="font-size: 1.5rem;"></i>
+                                    <div>
+                                        <h5 class="mb-1">Ambientes Consistentes</h5>
+                                        <p class="mb-0">Garantia de que staging e produção são configurados de forma idêntica.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tecnologias -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="section-title">Tecnologias Utilizadas</h2>
+            <div class="row justify-content-center text-center">
+                <div class="col-12">
+                    <div class="d-flex flex-wrap justify-content-center align-items-center">
+                        <div class="text-center">
+                            <i class="bi bi-aws" style="font-size: 3rem; color: var(--accent-color);"></i>
+                            <p>AWS</p>
+                        </div>
+                        <div class="text-center mx-4">
+                            <i class="bi bi-github" style="font-size: 3rem; color: var(--dark-color);"></i>
+                            <p>GitHub</p>
+                        </div>
+                        <div class="text-center">
+                            <i class="bi bi-code-slash" style="font-size: 3rem; color: var(--primary-color);"></i>
+                            <p>Terraform</p>
+                        </div>
+                        <div class="text-center mx-4">
+                            <i class="bi bi-credit-card" style="font-size: 3rem; color: var(--secondary-color);"></i>
+                            <p>Stripe</p>
+                        </div>
+                        <div class="text-center">
+                            <i class="bi bi-gear" style="font-size: 3rem; color: var(--dark-color);"></i>
+                            <p>GitHub Actions</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documentação -->
+    <section class="py-5 bg-light" id="documentacao">
+        <div class="container">
+            <h2 class="section-title">Documentação</h2>
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h4 class="card-title"><i class="bi bi-book me-2 text-primary"></i> Guia de Início Rápido</h4>
+                            <p class="card-text">Siga estes passos para começar a usar o projeto:</p>
+                            <ol>
+                                <li class="mb-3">Clone o repositório:
+                                    <div class="code-block">
+                                        <span class="code-language">bash</span>
+                                        <pre>git clone https://github.com/seu-usuario/devops-project.git
+cd devops-project</pre>
+                                    </div>
+                                </li>
+                                <li class="mb-3">Configure os secrets no GitHub conforme documentado em <code>.github/SECRETS.md</code>.</li>
+                                <li class="mb-3">Inicialize o estado remoto do Terraform:
+                                    <div class="code-block">
+                                        <span class="code-language">bash</span>
+                                        <pre>cd terraform/environments/staging
+terraform init</pre>
+                                    </div>
+                                </li>
+                                <li>Aplique a infraestrutura:
+                                    <div class="code-block">
+                                        <span class="code-language">bash</span>
+                                        <pre>terraform apply</pre>
+                                    </div>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h4 class="card-title"><i class="bi bi-shield-lock me-2 text-primary"></i> Considerações de Segurança</h4>
+                            <p class="card-text">Práticas de segurança implementadas no projeto:</p>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <h5><i class="bi bi-key me-2 text-primary"></i> Rotação de Credenciais</h5>
+                                    <p class="mb-0">Implemente rotação regular de credenciais da AWS e do Stripe.</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <h5><i class="bi bi-shield-check me-2 text-primary"></i> Atualizações de Segurança</h5>
+                                    <p class="mb-0">Mantenha as dependências atualizadas usando o workflow de security scan.</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <h5><i class="bi bi-lock me-2 text-primary"></i> Privilégio Mínimo</h5>
+                                    <p class="mb-0">Todas as IAM roles seguem o princípio do privilégio mínimo.</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <h5><i class="bi bi-file-earmark-lock me-2 text-primary"></i> Criptografia</h5>
+                                    <p class="mb-0">Dados em repouso e em trânsito são criptografados.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title"><i class="bi bi-terminal me-2 text-primary"></i> Comandos Úteis</h4>
+                            <div class="row">
+                                <div class="col-md-4 mb-3 mb-md-0">
+                                    <h5>Terraform</h5>
+                                    <div class="code-block">
+                                        <span class="code-language">bash</span>
+                                        <pre># Inicializar
+terraform init
+
+# Validar
+terraform validate
+
+# Planejar mudanças
+terraform plan
+
+# Aplicar mudanças
+terraform apply</pre>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3 mb-md-0">
+                                    <h5>GitHub Actions</h5>
+                                    <div class="code-block">
+                                        <span class="code-language">bash</span>
+                                        <pre># Executar workflow manualmente
+gh workflow run ci-cd.yml
+
+# Verificar status dos workflows
+gh run list
+
+# Visualizar logs de uma execução
+gh run view &lt;run-id&gt; --log</pre>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <h5>AWS CLI</h5>
+                                    <div class="code-block">
+                                        <span class="code-language">bash</span>
+                                        <pre># Listar funções Lambda
+aws lambda list-functions
+
+# Invocar função Lambda
+aws lambda invoke \
+  --function-name payment-gateway-staging-payment-processor \
+  output.json</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-5 bg-primary text-white">
+        <div class="container text-center">
+            <h2 class="mb-4">Pronto para implementar sua solução DevOps?</h2>
+            <p class="lead mb-4">Este projeto fornece uma base sólida para desenvolvimento, teste e deploy contínuos de aplicações com processamento de pagamentos.</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="#inicio" class="btn btn-light btn-lg">Começar Agora</a>
+                <a href="#documentacao" class="btn btn-outline-light btn-lg">Ver Documentação</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <h4>Projeto DevOps com AWS</h4>
+                    <p>Uma solução completa de DevOps que integra infraestrutura como código, gateway de pagamento e pipeline CI/CD automatizado.</p>
+                </div>
+                <div class="col-md-3 mb-4 mb-md-0">
+                    <h5>Links Rápidos</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#inicio" class="text-white">Início</a></li>
+                        <li><a href="#arquitetura" class="text-white">Arquitetura</a></li>
+                        <li><a href="#componentes" class="text-white">Componentes</a></li>
+                        <li><a href="#pipeline" class="text-white">Pipeline CI/CD</a></li>
+                        <li><a href="#documentacao" class="text-white">Documentação</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Tecnologias</h5>
+                    <ul class="list-unstyled">
+                        <li>AWS</li>
+                        <li>Terraform</li>
+                        <li>GitHub Actions</li>
+                        <li>Stripe</li>
+                        <li>Node.js</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4 bg-light">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2025 Projeto DevOps com AWS. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Botão Voltar ao Topo
+        window.onscroll = function() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("back-to-top").style.display = "block";
+            } else {
+                document.getElementById("back-to-top").style.display = "none";
+            }
+        };
+        
+        document.getElementById("back-to-top").addEventListener("click", function() {
+            document.body.scrollTop = 0; // Para Safari
+            document.documentElement.scrollTop = 0; // Para Chrome, Firefox, IE e Opera
+        });
+    </script>
+</body>
+</html>

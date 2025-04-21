@@ -1,0 +1,18 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+
+[dev-packages]
+python-dotenv = "*"
+setuptools = "*"
+requests = "*"
+packaging = "*"
+
+[requires]
+python_version = "3.11"
+
+[scripts]
+sbx = "python -m cli.sbx"
